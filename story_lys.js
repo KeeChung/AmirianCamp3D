@@ -23,6 +23,8 @@ const { createClimbs } = await import('./climb.js' + V);
 const { createTraps } = await import('./traps.js' + V);
 const { creatureKit2 } = await import('./creatures2.js' + V);
 const { createItems } = await import('./items.js' + V);
+const cast4 = await import('./cast4.js' + V);
+const { createCaptures3 } = await import('./captures3.js' + V);
 
 export async function setup(S, env) {
   const { THREE, scene, anne, A, V3, TILE } = S, C = common(S), { sparks, K, along } = C;
@@ -342,7 +344,7 @@ export async function setup(S, env) {
   // =====================================================================================================
   // HORNETS in the meadow north-east of the way in and in the east woods; SLIMES in the marsh west of the first bridge
   // and on the path to the Glade of Lys. Lost: captures2.js. Won: the party tickles HER on the stump (tame, above).
-  const ck2 = creatureKit2(S, C, env, ck, capt, cap2, cast3);
+  const ck2 = creatureKit2(S, C, env, ck, capt, cap2, cast3, { cap3: createCaptures3(S, C, env, capt), cast4 });
   const TAME = {
     hornet: {
       intro: async (shots, T) => {
@@ -396,6 +398,26 @@ export async function setup(S, env) {
   };
   packs.push(ck2.pack('hornet', [[18, 4], [31, 14]], { tame: tamer('hornet'), aside, back: rejoin }));
   packs.push(ck2.pack('slime', [[5, 16], [24, 27]], { tame: tamer('slime'), aside, back: rejoin }));
+  // (11-01) the later ones (the 2D's Map 36, at GAME_PROGRESS 200 or on the Holy Order's jobs; that story is not built here, so
+  // they come out once the bridge is free, on the far side of the dryad): MOTH GIRLS in the meadow's east end and on the way to
+  // the witches; BLACK MOON WITCHES in their clearing and in the mushroom hollow; the TREANT in her grove past the east woods.
+  // The PUMPKIN FIENDS (the 2D's Halloween event, here the year round) are about from the start. Lost: captures3.js. Won: they
+  // give up and pay up. creatures2.js.
+  const later = () => DONE();
+  packs.push(ck2.pack('moth', [[21, 6], [27, 34]], { when: later, aside, back: rejoin }));
+  packs.push(ck2.pack('witch', [[32, 35], [5, 28]], { when: later, aside, back: rejoin }));
+  packs.push(ck2.pack('treant', [[38, 18]], { when: later, aside, back: rejoin }));
+  packs.push(ck2.pack('pumpkin', [[13, 20], [21, 17], [20, 31]], { aside, back: rejoin }));
+  // the Black Moon's clearing: standing stones round a faint ring
+  {
+    const c = tc(32, 35), stone = M({ color: new THREE.Color(0.17, 0.17, 0.21), roughness: 0.95 });
+    for (let i = 0; i < 7; i++) {
+      const a = i / 7 * 6.283 + 0.2, h = 0.95 + 0.3 * (i % 3), x = c.x + Math.cos(a) * 1.55 * TILE, z = c.z + Math.sin(a) * 1.15 * TILE, m = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.22, h, 7), stone);
+      m.position.set(x, h / 2 - 0.03, z); m.rotation.set(0.08 * (i % 2 ? 1 : -1), a, 0.06); m.castShadow = true; scene.add(m); S.block('bmstone' + i, x, z, 0.3);
+    }
+    const ring = new THREE.Mesh(new THREE.RingGeometry(0.9, 1.0, 48), new THREE.MeshBasicMaterial({ color: new THREE.Color(0.42, 0.2, 0.8), transparent: true, opacity: 0.5, depthWrite: false, side: THREE.DoubleSide }));
+    ring.rotation.x = -PI / 2; ring.position.set(c.x, 0.04, c.z); scene.add(ring);
+  }
 
   // Myconids (the 2D's "Myconid" and "RedMyconid" patches): two in the mushroom hollow, one in the east woods
   [[6, 25, 'orange', 1], [9, 28, 'red', 2], [34, 17, 'orange', 1]].forEach(([x, y, tint, n], i) => {
@@ -509,6 +531,37 @@ export async function setup(S, env) {
     S.late.push((dt, t) => { for (const f of figs) f.update(dt, t); });
     const p = S.tileC(8, 3); figs.forEach((f, i) => { f.show(V3(p.x + (i - 1.5) * 1.0, 0, p.z), 0); if (f.hover && i === 0) f.hover(1); });
     window.__cast3 = figs;
+  }
+  // (tests: ?cast4: the later creatures in a row at the entrance)
+  if (new URLSearchParams(location.search).has('cast4')) {
+    const figs = [cast4.createMoth(S, C), cast4.createWitch(S, C), cast4.createTreant(S, C)];
+    S.late.push((dt, t) => { for (const f of figs) f.update(dt, t); });
+    const p = S.tileC(8, 3); figs.forEach((f, i) => { f.show(V3(p.x + (i - 1) * 1.3, 0, p.z), PI, i === 1 ? 'Idle' : 'IdleBare'); });
+    window.__cast4 = figs;
+  }
+  // (tools/facesheet.sh, ?facesheet=mo | wi | tr: that creature's portrait sheet, eight faces of her own 3D figure, 4 x 2, as a
+  // PNG data URL in window.__sheet; nothing of the 2D game's art goes into these)
+  {
+    const key = new URLSearchParams(location.search).get('facesheet');
+    if (key) setTimeout(async () => {
+      const f = { mo: cast4.createMoth, wi: cast4.createWitch, tr: cast4.createTreant }[key](S, C), p = S.tileC(8, 4), n = 144, cv = document.createElement('canvas'); cv.width = n * 4; cv.height = n * 2;
+      S.late.push((dt, t) => f.update(dt, t)); f.show(V3(p.x, 0, p.z + 3), PI, key === 'wi' ? 'Idle' : 'IdleBare');
+      for (let i = 0; i < 6; i++) await S.frame();
+      f.obj.traverse((o) => o.layers.enable(2));
+      const cam = new THREE.PerspectiveCamera(31, 1, 0.05, 8); cam.layers.set(2);
+      const k = new THREE.DirectionalLight(0xfff0e2, 3.5), fill = new THREE.HemisphereLight(0xe6ecff, 0x7a6658, 1.6); k.layers.set(2); fill.layers.set(2); k.castShadow = false; scene.add(k, k.target, fill);
+      const cx = cv.getContext('2d'), tmp = document.createElement('canvas'), F = cast4.FACES4[key];
+      for (let i = 0; i < 8; i++) {
+        f.expr(F[i], 0); for (let j = 0; j < 5; j++) await S.frame();
+        f.obj.updateMatrixWorld(true); const h = f.head(V3()); h.y += key === 'mo' ? 0.0 : 0.02;
+        cam.position.set(h.x + 0.26, h.y - 0.08, h.z - 1.0); cam.lookAt(h.x, h.y, h.z); cam.updateMatrixWorld(true);
+        k.position.set(h.x + 0.7, h.y + 0.9, h.z - 1.2); k.target.position.copy(h); k.target.updateMatrixWorld(true); k.updateMatrixWorld(true);
+        const shot = env.post.portrait(cam), m = shot.size; tmp.width = tmp.height = m; const tc2 = tmp.getContext('2d'), img = tc2.createImageData(m, m), row = m * 4;
+        for (let y = 0; y < m; y++) img.data.set(shot.pixels.subarray((m - 1 - y) * row, (m - y) * row), y * row);
+        tc2.putImageData(img, 0, 0); cx.drawImage(tmp, (i % 4) * n, Math.floor(i / 4) * n, n, n);
+      }
+      window.__sheet = cv.toDataURL('image/png'); console.log('FACESHEET done');
+    }, 2500);
   }
   // (tests: ?ev=tHornet / tHornet2 / tSlime / tSlime2: the new captures on their own, at the first bridge's glade)
   {

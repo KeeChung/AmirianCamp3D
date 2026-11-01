@@ -108,8 +108,10 @@ PATHS = [
     [(11, 20), (8, 23), (7, 26)],                      # south-west of the first bridge: the mushroom hollow
     [(22, 18), (26, 15), (30, 14)],                    # north-east of the second bridge: the east woods
     [(23, 27), (26, 27)],                              # east of the lower road: to the foot of the Glade of Lys
+    [(24, 34), (30, 35)],                              # (11-01) east of the south road: the Black Moon witches' clearing
+    [(35, 17), (37, 18)],                              # (11-01) past the east woods: the treant's old grove
 ]
-GLADES += [(17.5, 4.5, 3.0), (20.5, 6.5, 2.0), (4.5, 16, 2.4), (6.5, 26.5, 3.0), (9.5, 29, 2.0), (30.5, 14, 3.2), (34, 16.5, 2.2), (26.5, 27, 1.6)]
+GLADES += [(17.5, 4.5, 3.0), (20.5, 6.5, 2.0), (4.5, 16, 2.4), (6.5, 26.5, 3.0), (9.5, 29, 2.0), (30.5, 14, 3.2), (34, 16.5, 2.2), (26.5, 27, 1.6), (32, 35, 2.2), (38, 18.5, 2.0)]
 
 
 def seg_d(px, py, a, b):

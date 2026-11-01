@@ -387,3 +387,7 @@ walkable ground of the other level with none of her own within two tiles is take
 **Tests**: `window.__frames.report()` (what is in which group; what is left at the root away from the origin),
 `window.__setLevel(lv)`, `window.__climbs.goUp(id)` / `.goDown(id)`, `?at=<a ledge tile>`. `?cam=` is in the world's
 coordinates as built (it is moved with a level change): for a view from a ledge add 3 to its two heights.
+
+## Two more clearings in the Forest of Lys (11-01, batch 28)
+Carved in tools/make_level_ch2.py: the Black Moon's clearing east of the south road (32,35) and the treant's grove past the east
+woods (38,18). Only level_lys.json changed; the generator is deterministic. Their props (standing stones, a ring) are in story_lys.js.

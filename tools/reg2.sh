@@ -1,13 +1,13 @@
 #!/bin/bash
 cd "$(dirname "$0")/.." || exit 1
-# Chapter 2's scenes played to their end one after the other, and (10-12) the ledges' and the Forest of Lys's new ones (29 lines; ONE headless browser at a time; about 11 minutes):
+# Chapter 2's scenes played to their end one after the other, and (10-12) the ledges' and the Forest of Lys's new ones (41 lines; ONE headless browser at a time; about 15 minutes):
 # each line is name|console text to wait for|URL parameters. A scene passes when it prints "done (seen=true, ...)".
 # usage (from the project root, the game served at 127.0.0.1:8123): tools/reg2.sh [dir for the screenshots]
 SP=${1:-$(mktemp -d)}; mkdir -p "$SP"
 kill_chrome() { for p in $(ps aux | grep -i "Google Chrome" | grep -v grep | grep -i "remote-debugging" | awk '{print $2}'); do kill $p 2>/dev/null; done; }
 while IFS='|' read -r name wait q; do
   [ -z "$name" ] && continue
-  r=$(node tools/cdp_run.mjs "http://127.0.0.1:8123/?auto&fresh&$q" gpu=1 dpr=1 w=900 h=560 wait="$wait" delay=2500 timeout=300000 shot="$SP/$name.png" eval="JSON.stringify({g:__dbg.A.groundStats(),shoes:__dbg.A.shoes(),prog:__dbg.story.S.progress,err:(document.querySelector('#err')||{}).textContent||''})" 2>&1 | grep -E "CH2 |LYS |CLIMB |BOUND|SHOES going on|HOLD reached|^done|exception|EVAL|CAMFIX|EXIT to|story scene failed" | sed 's/^\[log\] //' | cut -c1-110 | tr '\n' ' ')
+  r=$(node tools/cdp_run.mjs "http://127.0.0.1:8123/?auto&fresh&$q" gpu=1 dpr=1 w=900 h=560 wait="$wait" delay=2500 timeout=300000 shot="$SP/$name.png" eval="JSON.stringify({g:__dbg.A.groundStats(),shoes:__dbg.A.shoes(),prog:__dbg.story.S.progress,err:(document.querySelector('#err')||{}).textContent||''})" 2>&1 | grep -E "CH2 |LYS |FOREST |CLIMB |BOUND|SHOES going on|HOLD reached|^done|exception|EVAL|CAMFIX|EXIT to|story scene failed" | sed 's/^\[log\] //' | cut -c1-110 | tr '\n' ' ')
   echo "$name: $r"; kill_chrome
 done <<'LIST'
 post_reading|CH2 reading done|level=post&prog=100&flags=boudicca,camellia,postPurse&coins=1000&ev=camellia&pick=0&sa=mhm&ts=3
@@ -39,4 +39,16 @@ lys_climb_up|CLIMB up weeds done|level=lys&prog=106&flags=boudicca,dryadDone&ev=
 lys_climb_down|CLIMB down glade done|level=lys&prog=106&flags=boudicca,dryadDone&at=30,27&ev=climbDown_glade&sa=m&pick=0&ts=3
 forest_climb|CLIMB up B done|level=forest&prog=40&ev=climbUp_B&sa=m&pick=0&ts=3
 forest_myc_ledge|SHOE LINE clean|level=forest&prog=20&at=31,46&ev=myc5&sa=m&ts=3
+lys_moth_won|LYS moth beaten|level=lys&prog=106&flags=boudicca,dryadDone&ev=moth0&sa=hh&ts=3
+lys_moth_lost|LYS moth caught lost|level=lys&prog=106&flags=boudicca,dryadDone&ev=moth0&sa=mmm&ts=3
+lys_moth_free|LYS moth caught free|level=lys&prog=106&flags=boudicca,dryadDone&ev=moth1&sa=mh&ts=3
+lys_witch_won|LYS witch beaten|level=lys&prog=106&flags=boudicca,dryadDone&ev=witch0&sa=hh&pick=0&ts=3
+lys_witch_left|LYS witch left alone|level=lys&prog=106&flags=boudicca,dryadDone&ev=witch0&sa=m&pick=1&ts=3
+lys_witch_lost|LYS witch caught lost|level=lys&prog=106&flags=dryadDone&ev=witch1&sa=mmm&pick=0&ts=3
+lys_treant_won|LYS treant beaten|level=lys&prog=106&flags=boudicca,dryadDone&ev=treant0&sa=hhh&ts=3
+lys_treant_free|LYS treant caught free|level=lys&prog=106&flags=boudicca,dryadDone&ev=treant0&sa=mmh&ts=3
+lys_pumpkin_won|LYS pumpkin beaten|level=lys&prog=106&flags=boudicca,dryadDone&ev=pumpkin0&sa=h&ts=3
+lys_pumpkin_lost|LYS pumpkin caught lost|level=lys&prog=106&flags=boudicca,dryadDone&ev=pumpkin1&sa=mm&ts=3
+forest_pumpkin_won|FOREST pumpkin beaten|level=forest&prog=40&ev=pumpkin0&sa=h&ts=3
+forest_pumpkin_lost|FOREST pumpkin caught lost|level=forest&prog=40&ev=pumpkin1&sa=mm&ts=3
 LIST

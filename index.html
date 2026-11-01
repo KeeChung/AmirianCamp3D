@@ -112,7 +112,7 @@ const showErr = (e) => { console.error(e); $('err').textContent = String(e && e.
 window.addEventListener('error', (e) => showErr(e.error || e.message));
 const qp = new URLSearchParams(location.search);
 
-const VER = '355';                                  // bump when assets or modules change so browsers don't serve stale copies
+const VER = '359';                                  // bump when assets or modules change so browsers don't serve stale copies
 // which area: the camp, the Forest Pond north of it, or the North Forest south of it
 // [level file, title, line on the loading card, music]
 const AREAS = { camp: ['level.json', 'Forest Camp', '', 'forest3.mp3'], pond: ['level_pond.json', 'Forest Pond', 'The path north of the camp opens onto the pond.', 'forest3.mp3'],

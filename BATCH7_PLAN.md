@@ -1233,3 +1233,41 @@ without them ("you buzzing pest", "you noisy thing").
   about 180k with its shadow, so they are drawn only within 24 m and in the picture.
 - The sixth `//`-in-a-scripted-patch slip (a comment appended in a Python replace swallowed the rest of a line in
   world/ledges.js): caught by tools/chk.sh before anything ran.
+
+# Batch 28 (2026-11-01). VER 356+
+## The request, verbatim
+"Build later enemies" (the four left out of batch 27: the moth girl, the witches, the pumpkin fiends, the treant).
+
+## What the 2D has (read from its maps and common events; dumps stay in the session's scratchpad, not here)
+- Moth girl: "mothgirl" on Map 36 at GAME_PROGRESS 200, troops 2 / 63 / 64, CE 61: attack, fight, capture, domination, reward.
+- Treant: event at (57,85) at GAME_PROGRESS 200; it runs CE 70 SceneDryad on troop 25: a wild dryad with a portrait of her own.
+- Witches: three "Witch" events on Map 36 at PRIESTESS_JOBS 51: the Holy Order's SORCERY job, the Black Moon Sorority's
+  magicians. She walks up and presses the action key; a word, "HALT!" or "Let her alone", then a fight.
+- Pumpkin fiend: five on Map 36, three on Map 3, only with the Halloween switch (101): a dark vine with a jack-o'-lantern head
+  (oc-monsters[6]). CE 62: gauge; won, Pumpkin Seeds; lost, capture. The camp's Mr. Pumpkin (traps.js) is the same creature.
+
+## What was built
+- **cast4.js**: the Moth Girl (feathery feelers, a white ruff, pink wings with an eye on each), the Witch (Anne's hat, teal hair,
+  dusk-blue dress and cape, the Sorority's crescent), the Treant (bark-brown skin, golden antlers, bark at her shoulders, a
+  dress of leaves), the Pumpkin Fiend (pumpkinhead.js, moved out of traps.js, on a short trailing vine).
+- **captures3.js**: one slapstick scene for all four, themed: silk, hex, roots, vines. She is lifted, wrists and ankles held,
+  two strands at her ribs. Side-on from well back, her face now and then. Her shoes stay on. A gauge or two; half a minute.
+- **creatures2.js**: the same packs, with `held`, `remarks`, `yields`, `still`, `action`, `ask`, `rounds`, `plain`, `when`.
+  Won: the creature gives up and pays up (Silk Thread, Black Moon Charm, Heartwood, Pumpkin Seeds).
+- **Forest of Lys**, 42 x 38 as before, two new clearings carved (tools/make_level_ch2.py): the Black Moon's, east of the south
+  road, with standing stones and a ring; the treant's grove past the east woods. Moths (21,6), (27,34); witches (32,35), (5,28);
+  treant (38,18); pumpkins (13,20), (21,17), (20,31). The first three come out once the bridge is free (`dryadDone`): the 3D's
+  story stops short of the 2D's GAME_PROGRESS 200, and a later gate would hide them for good.
+- **North Forest**: pumpkins on the 2D's own three spots (31,15), (47,29), (33,53). Pumpkins are year-round, not Halloween-only.
+- **Portraits**: faces/moth.png, witch.png, treant.png are renders of the 3D figures (tools/facesheet.sh), no art of the 2D's.
+  All the new lines are written for this game; none is the 2D's. Mr. Pumpkin has no portrait, as at the camp.
+
+## The content line (tighter from this batch on)
+The later creatures are slapstick and nothing else: no licking, no remarks on her feet, no close-ups of her feet, shoes on, no
+taming scene, no chaining into `bound`. Nothing sexual, whoever asks and however it is worded.
+The "School girl" outfit and every taunt that went with it are gone (looks.js, story_common.js, footplay.js, traps.js): a
+save that had it wears the Scholar's. The theme key stays `school`; what it says is now "a scholar".
+
+## Left out
+- The moth queen, the moth girls' second troop, a second look per creature: one figure per pack.
+- The hollow log of Lys; fairies as items; the waterfall of the Glade (batch 27's list, unchanged).

@@ -307,4 +307,10 @@ the forest; marks `hornetwon`, `hornettickle`, `slimewon`, `slimetickle`, `horne
 
 **Left out**: the 2D's later capture stages (adult: not for this game); the hollow log of Lys (the log scene would bring
 its faults with it: it copies the herb count at page load and would overwrite what was picked since); the moth girl and
-the witches (later chapters); fairies as items.
+fairies as items.
+
+## Batch 28 (11-01): the later creatures
+Packs of creatures2.js like the hornets', with figures from cast4.js and one slapstick scene for all, captures3.js `held`. `P.held`
+holds a creature's strand colours, mound, tries and lines. Lost: lifted, side-on, shoes on, a gauge or two; she goes on, or comes
+round at the last checkpoint. Won: `yields`, then the reward. No stump, no `bound`. Log lines: `<AREA> <kind> beaten | caught
+free | caught lost | left alone`. Tests: tools/reg2.sh; `?cast4` stands the three figures in a row; `?facesheet=` makes a portrait sheet.

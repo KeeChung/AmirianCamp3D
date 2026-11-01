@@ -137,6 +137,8 @@ export function createStory(ctx) {
     ca: ['faces/camellia.png', 4, 6, 'Camellia'], dr: ['faces/dryad.png', 4, 4, 'Dryad'], el: ['faces/elora.png', 4, 4, 'Elora'], mi: ['faces/mia.png', 4, 2, 'Mia'], gu: ['faces/valyndra-guards.png', 4, 2, 'Gate Guard'],
     // (10-12: the Forest of Lys's creatures) the hornet girls and the slime girls
     ho: ['faces/hornet.png', 4, 2, 'Hornet'], sl: ['faces/slime.png', 4, 2, 'Slime'],
+    // (11-01: the later creatures; portraits of their own 3D figures: tools/facesheet.sh)
+    mo: ['faces/moth.png', 4, 2, 'Moth Girl'], wi: ['faces/witch.png', 4, 2, 'Witch'], tr: ['faces/treant.png', 4, 2, 'Treant'],
   };
   const BITMAPS = {};
   // (10-04, as he asked) her name is the player's (looks.js): wherever the story says "Anne", it says that name; and once

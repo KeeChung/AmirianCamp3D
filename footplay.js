@@ -489,7 +489,7 @@ export function createFootPlay(env) {
     if (W.soleWord) out.push(`Those ${W.soleWord} soles of yours, Anne... gorgeous.`, `Such pretty ${W.soleWord} feet, honey... and all mine.`);
     if (K.nail) out.push(`${K.nail.charAt(0).toUpperCase() + K.nail.slice(1)} toenails? You dressed them up for me, sweetie.`);
     if (K.label) out.push(`You came to me in ${String(K.label).toLowerCase()}, girl... barely a step out of them. How thoughtful.`);
-    const T = { witch: 'Still playing the little witch, honey? Witches giggle too.', school: 'A schoolgirl? Then here is today\'s lesson, sweetie.', office: 'All business up there... and all giggles down here.', sporty: 'So sporty, girl! Let us see how long you last.',
+    const T = { witch: 'Still playing the little witch, honey? Witches giggle too.', school: 'A scholar? Then here is something no book will tell you, honey.', office: 'All business up there... and all giggles down here.', sporty: 'So sporty, girl! Let us see how long you last.',
       beach: 'Dressed for the beach? Bare feet suit you, honey.', sleep: 'Ready for bed, sweetie? No sleep for these toes.', goth: 'So dark and gloomy... I will have you giggling, girl.', bunny: 'A bunny! Do bunnies have ticklish feet? ...They do.',
       royal: 'Your Highness... your royal soles, if you please.', warrior: 'Armour everywhere but your soles, brat.', villain: 'A villain? There is only room for one of those here, honey.', maid: 'A maid? You missed a spot, sweetie... right HERE.',
       kimono: 'Such an elegant dress, honey... and such wiggly toes under it.', dancer: 'A dancer! Then point those toes for me, girl.', casual: 'Dressed so simply... and still delicious.', towel: 'Fresh from the bath, sweetie? Squeaky clean soles... mmm.',

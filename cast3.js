@@ -11,11 +11,11 @@
 const V = new URL(import.meta.url).search;
 const { createThief } = await import('./thief.js' + V);
 
-const mul = (r, g, b, rough) => (m) => { m.color.multiply({ r, g, b }); if (rough) m.roughness = rough; };
-const rgb = (r, g, b, rough, metal) => (m) => { m.color.setRGB(r, g, b); if (rough !== undefined) m.roughness = rough; if (metal !== undefined) m.metalness = metal; };
-const NOHAT = ['Anne_Hat', 'Anne_HatBand', 'Anne_Cuffs', 'Anne_CuffTrim'];
-function lips(tw, THREE, head) { tw.mouth = new THREE.Object3D(); tw.mouth.position.set(0, 1.497, 0.152); head.add(tw.mouth); }
-const tubeOf = (THREE, pts, r0, r1, mat, seg = 16) => {
+export const mul = (r, g, b, rough) => (m) => { m.color.multiply({ r, g, b }); if (rough) m.roughness = rough; };
+export const rgb = (r, g, b, rough, metal) => (m) => { m.color.setRGB(r, g, b); if (rough !== undefined) m.roughness = rough; if (metal !== undefined) m.metalness = metal; };
+export const NOHAT = ['Anne_Hat', 'Anne_HatBand', 'Anne_Cuffs', 'Anne_CuffTrim'];
+export function lips(tw, THREE, head) { tw.mouth = new THREE.Object3D(); tw.mouth.position.set(0, 1.497, 0.152); head.add(tw.mouth); }
+export const tubeOf = (THREE, pts, r0, r1, mat, seg = 16) => {
   const path = new THREE.CatmullRomCurve3(pts), geo = new THREE.TubeGeometry(path, seg, 1, 8, false), P = geo.attributes.position;
   for (let i = 0; i <= seg; i++) { const u = i / seg, c = path.getPointAt(u), r = r0 + (r1 - r0) * u; for (let k = 0; k <= 8; k++) { const n = i * 9 + k; P.setXYZ(n, c.x + (P.getX(n) - c.x) * r, c.y + (P.getY(n) - c.y) * r, c.z + (P.getZ(n) - c.z) * r); } }
   geo.computeVertexNormals(); const m = new THREE.Mesh(geo, mat); m.castShadow = true; return m;

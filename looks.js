@@ -137,7 +137,6 @@ export function createLooks(env) {
     pajamas: ['Pyjamas', { suit: '#8fc4f0', pat: ['dots', W, 0.04], sleeve: ['suit', 1.05], arms: 'sleeves', bandCol: 'suit', legs: 'suit', legTop: 0.82, trim: W, choker: '#8fc4f0', hat: false, theme: 'sleep' }],
     croptop: ['Crop top', { cut: cut('crop'), suit: '#ff9a1f', suit2: DENIM, split: 0.47, trim: W, choker: '#ff9a1f', arms: 'bare', hat: false, theme: 'casual' }],
     tanktop: ['Tank top', { cut: cut('tank'), suit: W, suit2: DENIM, split: 0.47, trim: '#c0c4cc', choker: K, arms: 'bare', hat: false, theme: 'casual' }],
-    school: ['School girl', { suit: W, sleeve: ['suit', 0.42], skirt: NAVY, trim: NAVY, choker: W, arms: 'bare', legs: W, legTop: 0.5, hat: false, parts: ['Skirt'], acc: [['collar', { color: NAVY }], ['bowtie', { color: RED }]], theme: 'school' }],
     miniskirt: ['Miniskirt', { suit: '#e8457f', sleeve: ['suit', 0.42], skirt: K, trim: K, choker: K, arms: 'bare', hat: false, parts: ['SkirtTube'], theme: 'casual' }],
     shortskirt: ['Short skirt', { cut: cut('tank'), suit: W, skirt: DENIM, trim: W, choker: '#e86fa8', arms: 'bare', hat: false, parts: ['Skirt'], theme: 'casual' }],
     bunny: ['Bunny girl', { cut: cut('tube', 'brief'), suit: K, trim: K, choker: W, arms: 'bracers', bandCol: W, ends: [0.8, 0.93], legs: K, legTop: 0.86, legMake: 'net', legSize: 0.026, hat: false, acc: [['bunnyears', { color: K }], ['tail_bunny'], ['bowtie', { color: K }]], theme: 'bunny' }],
@@ -162,13 +161,13 @@ export function createLooks(env) {
   const WEARING = { witch: "a witch's dress", sorceress: "a sorceress's robes", adventurer: "an adventurer's gear", summer: 'a summer dress', scholar: "a scholar's blouse and skirt", sporty: 'a sports suit', rose: "a rose-pink witch's dress",
     midnight: "a midnight witch's dress", skater: 'a skater skirt', nerd: 'a sweater vest and glasses', cheer: "a cheerleader's uniform", business: 'a blouse and slacks', beach: 'a bikini', harem: "a dancer's silks", goth: 'a black goth dress',
     armor: 'bikini armour', princess: "a princess's gown", gym: 'gym clothes', villain: "a villain's suit and cape", fairy: 'a fairy dress', nightwear: 'satin nightwear', tee: 'a T-shirt and sleep shorts', sport: 'a track uniform', kimono: 'a kimono',
-    towel: 'a bath towel', maid: "a maid's uniform", teacher: "a teacher's blouse and skirt", pajamas: 'pyjamas', croptop: 'a crop top', tanktop: 'a tank top', school: 'a school uniform', miniskirt: 'a miniskirt', shortskirt: 'a short skirt',
+    towel: 'a bath towel', maid: "a maid's uniform", teacher: "a teacher's blouse and skirt", pajamas: 'pyjamas', croptop: 'a crop top', tanktop: 'a tank top', miniskirt: 'a miniskirt', shortskirt: 'a short skirt',
     bunny: 'a bunny suit', cheongsam: 'a cheongsam', evilqueen: "an evil queen's gown", goddess: "a goddess's robes", dancer: 'a ballet tutu', blouse: 'a blouse and skirt', gothnight: 'gothic nightwear', goblin: "a goblin's leathers",
     pastel: 'pastel lace', emo: 'an emo outfit', stagebunny: 'a sparkling bunny suit', queen: "a queen's gown", flight: "a flight attendant's uniform", coastal: "a mermaid's dress", idol: "an idol's stage outfit", space: 'a golden two-piece',
     outing: 'an evening dress' };
   // the tab's own order: by kind
   const OUTFIT_GROUPS = [['Witchcraft', ['witch', 'sorceress', 'rose', 'midnight', 'adventurer']], ['Everyday', ['summer', 'skater', 'croptop', 'tanktop', 'miniskirt', 'shortskirt', 'blouse', 'outing']],
-    ['School and work', ['scholar', 'nerd', 'school', 'teacher', 'business', 'flight', 'maid']], ['Sport and stage', ['sporty', 'sport', 'gym', 'cheer', 'dancer', 'idol']],
+    ['Study and work', ['scholar', 'nerd', 'teacher', 'business', 'flight', 'maid']], ['Sport and stage', ['sporty', 'sport', 'gym', 'cheer', 'dancer', 'idol']],
     ['Dark', ['goth', 'emo', 'gothnight', 'villain']], ['Crowns', ['princess', 'queen', 'evilqueen', 'goddess']], ['Far away', ['kimono', 'cheongsam', 'harem', 'space', 'coastal', 'fairy', 'goblin', 'armor', 'pastel']],
     ['Bunnies', ['bunny', 'stagebunny']], ['Beach and bedtime', ['beach', 'towel', 'nightwear', 'tee', 'pajamas']]];
   const OUTFIT_ORDER = OUTFIT_GROUPS.flatMap((g) => g[1]);
@@ -204,7 +203,8 @@ export function createLooks(env) {
         if (typeof v.hairStyle === 'string') L.hairStyle = v.hairStyle;
         if (LIDS[v.lids]) L.lids = v.lids;
         if (v.shape && typeof v.shape === 'object') for (const k in v.shape) if (/^shape-[a-z-]+$/.test(k) && isFinite(v.shape[k])) L.shape[k] = Math.max(-1.5, Math.min(1.5, +v.shape[k]));
-        if (OUTFITS[v.outfit]) L.outfit = v.outfit;
+        // (11-01: the School girl outfit is gone: a save that had it wears the Scholar's)
+        if (v.outfit === 'school') L.outfit = 'scholar'; else if (OUTFITS[v.outfit]) L.outfit = v.outfit;
         if (v.suit === '' || HEX.test(v.suit)) L.suit = v.suit;
         if (v.hat === true || v.hat === false) L.hat = v.hat;
         if (v.legwear === false) L.legwear = false;
