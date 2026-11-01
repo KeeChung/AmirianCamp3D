@@ -262,6 +262,7 @@ export async function setup(S, env) {
     // (the next aim first, then the chapter's end: a game closed while the card is up has both)
     S.objective('Chapter 3 (not built yet): the Velvet Rug, and a boat to Amirian Island.'); S.progress = 140;
     S.toast('Quest complete: Recover the Grimmoire', 'success', 2.6); await S.wait(0.8);
+    if (!S.flag('marenHome')) await S.say('am', 0, 'The guards just locked up a lost mapmaker.\nBack in the dungeon, if you care, kitty.', { noFeet: true });      // (11-01: maren.js)
     await S.fade(1, 1.0);
     await S.card('Chapter 2 - Dawn comes Slowly: complete', 'The thief is banned from the city,\nand the Grimmoire of Conjuration is ours again.\n\nNext: allies, a boat from Dawn Harbor to Amirian Island...\nand, if Amaymon and Boudicca have their way,\nthe Velvet Rug.\n\n(To be continued: Chapter 3 is not built yet.)', 'Press SPACE to keep walking');
     party(-1.2, 0.4); S.cam.behind(anne, { cut: true, dist: 5 });

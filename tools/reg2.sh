@@ -1,13 +1,13 @@
 #!/bin/bash
 cd "$(dirname "$0")/.." || exit 1
-# Chapter 2's scenes played to their end one after the other, and (10-12) the ledges' and the Forest of Lys's new ones (41 lines; ONE headless browser at a time; about 15 minutes):
+# Chapter 2's scenes played to their end one after the other, and (10-12) the ledges' and the Forest of Lys's new ones (46 lines; ONE headless browser at a time; about 16 minutes):
 # each line is name|console text to wait for|URL parameters. A scene passes when it prints "done (seen=true, ...)".
 # usage (from the project root, the game served at 127.0.0.1:8123): tools/reg2.sh [dir for the screenshots]
 SP=${1:-$(mktemp -d)}; mkdir -p "$SP"
 kill_chrome() { for p in $(ps aux | grep -i "Google Chrome" | grep -v grep | grep -i "remote-debugging" | awk '{print $2}'); do kill $p 2>/dev/null; done; }
 while IFS='|' read -r name wait q; do
   [ -z "$name" ] && continue
-  r=$(node tools/cdp_run.mjs "http://127.0.0.1:8123/?auto&fresh&$q" gpu=1 dpr=1 w=900 h=560 wait="$wait" delay=2500 timeout=300000 shot="$SP/$name.png" eval="JSON.stringify({g:__dbg.A.groundStats(),shoes:__dbg.A.shoes(),prog:__dbg.story.S.progress,err:(document.querySelector('#err')||{}).textContent||''})" 2>&1 | grep -E "CH2 |LYS |FOREST |CLIMB |BOUND|SHOES going on|HOLD reached|^done|exception|EVAL|CAMFIX|EXIT to|story scene failed" | sed 's/^\[log\] //' | cut -c1-110 | tr '\n' ' ')
+  r=$(node tools/cdp_run.mjs "http://127.0.0.1:8123/?auto&fresh&$q" gpu=1 dpr=1 w=900 h=560 wait="$wait" delay=2500 timeout=300000 shot="$SP/$name.png" eval="JSON.stringify({g:__dbg.A.groundStats(),shoes:__dbg.A.shoes(),prog:__dbg.story.S.progress,err:(document.querySelector('#err')||{}).textContent||''})" 2>&1 | grep -E "CH2 |LYS |FOREST |MAREN |CLIMB |BOUND|SHOES going on|HOLD reached|^done|exception|EVAL|CAMFIX|EXIT to|story scene failed" | sed 's/^\[log\] //' | cut -c1-110 | tr '\n' ' ')
   echo "$name: $r"; kill_chrome
 done <<'LIST'
 post_reading|CH2 reading done|level=post&prog=100&flags=boudicca,camellia,postPurse&coins=1000&ev=camellia&pick=0&sa=mhm&ts=3
@@ -51,4 +51,9 @@ lys_pumpkin_won|LYS pumpkin beaten|level=lys&prog=106&flags=boudicca,dryadDone&e
 lys_pumpkin_lost|LYS pumpkin caught lost|level=lys&prog=106&flags=boudicca,dryadDone&ev=pumpkin1&sa=mm&ts=3
 forest_pumpkin_won|FOREST pumpkin beaten|level=forest&prog=40&ev=pumpkin0&sa=h&ts=3
 forest_pumpkin_lost|FOREST pumpkin caught lost|level=forest&prog=40&ev=pumpkin1&sa=mm&ts=3
+camp_maren|MAREN met|level=camp&prog=10&ev=maren&pick=0&sa=m&ts=3
+camp_maren_give|MAREN gave case|level=camp&prog=12&flags=marenMet,marenAsked,marenCase&ev=maren&sa=m&ts=3
+forest_maren_case|MAREN case found|level=forest&prog=40&flags=marenMet,marenAsked&ev=marenCase&sa=m&ts=3
+barracks_maren|MAREN home|level=barracks&prog=130&flags=boudicca,marenMet,marenCase&ev=marenCell&sa=m&ts=3
+barracks_maren_new|MAREN home|level=barracks&prog=140&flags=boudicca&ev=marenCell&sa=m&ts=3
 LIST

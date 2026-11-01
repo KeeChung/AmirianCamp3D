@@ -4,6 +4,7 @@
 const V = new URL(import.meta.url).search;      // this file's own ?v=..., passed on so that no stale copy of what it imports is used
 const { common } = await import('./story_common.js' + V);
 const { createTraps } = await import('./traps.js' + V);
+const { marenQuest } = await import('./maren.js' + V);
 
 export async function setup(S, env = {}) {
   const { anne, A, V3 } = S, C = common(S), { am } = C;
@@ -281,6 +282,12 @@ export async function setup(S, env = {}) {
     if (pick === 2) return;
     await S.hint(); await S.say('a1', 0, 'Got it.');
   } });
+
+  // (11-01) Maren Quill, a lost cartographer (maren.js): on the quiet side of the clearing, clear of the hole
+  {
+    const hole = traps && traps.hole ? traps.hole.at : null, at = [[12, 9], [6, 9], [13, 5], [5, 7]].map(([x, y]) => S.tileC(x, y)).find((p) => !hole || Math.hypot(p.x - hole.x, p.z - hole.z) > 1.8) || S.tileC(12, 9);
+    marenQuest(S, C, env).camp(at, Math.atan2(fire.x - at.x, fire.z - at.z));
+  }
 
   // ---------- the story starts by itself ----------
   // (10-02) A new game begins with the opening in the Tower of Wisdom (story_library.js), which comes back here for the

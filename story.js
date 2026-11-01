@@ -139,6 +139,7 @@ export function createStory(ctx) {
     ho: ['faces/hornet.png', 4, 2, 'Hornet'], sl: ['faces/slime.png', 4, 2, 'Slime'],
     // (11-01: the later creatures; portraits of their own 3D figures: tools/facesheet.sh)
     mo: ['faces/moth.png', 4, 2, 'Moth Girl'], wi: ['faces/witch.png', 4, 2, 'Witch'], tr: ['faces/treant.png', 4, 2, 'Treant'],
+    ma: ['faces/maren.png', 4, 2, 'Maren'],      // (11-01: maren.js)
   };
   const BITMAPS = {};
   // (10-04, as he asked) her name is the player's (looks.js): wherever the story says "Anne", it says that name; and once

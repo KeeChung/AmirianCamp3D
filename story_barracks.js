@@ -13,6 +13,7 @@ const { common } = await import('./story_common.js' + V);
 const { createBoudicca } = await import('./boudicca.js' + V);
 const { createElora, createMia, createAureliaBare, FACES } = await import('./cast2.js' + V);
 const { solesOf, footWork } = await import('./footwork.js' + V);
+const { marenQuest } = await import('./maren.js' + V);
 
 export async function setup(S, env) {
   const { THREE, scene, anne, A, V3 } = S, C = common(S), { sparks } = C;
@@ -451,11 +452,15 @@ export async function setup(S, env) {
   async function after() {
     S.setFade(1); S.clip('Idle', 0);
     if (await seatHer()) { stage('spent'); TIES.set(false); AUR.face = null; aur.expr('tired', 0.3); }
-    const EL2 = V3(SEAT.x + 1.15, 0, SEAT.z + 2.0); elora.show(EL2, PI * 0.9); elora.expr('neutral'); mia.show(MIA_AT, 0.3);
+    const EL2 = V3(SEAT.x + 1.15, 0, SEAT.z + 2.0); elora.show(EL2, PI * 0.9); elora.expr('neutral'); mia.show(MIA_AT, 0.3); maren.showInCell();
     S.block('eloraA', EL2.x, EL2.z, 0.45); S.block('miaA', MIA_AT.x, MIA_AT.z, 0.45);
     if (S.flag('boudicca')) { bou.show(V3(anne.position.x + 1.1, 0, anne.position.z + 0.4), PI); bou.follow(() => anne.position, 1.4, 1.4); S.party = { boudicca: bou }; }
     S.cam.behind(anne, { cut: true, dist: 4.2 }); await S.fade(0, 0.6);
   }
+  // (11-01) Maren Quill, arrested by mistake (maren.js): on a bench by the east wall, once Anne comes back in
+  const maren = marenQuest(S, C, env);
+  box(0.5, 0.42, 1.5, mat.wood, 14.9, 0.21, 7.6);
+  maren.dungeon(V3(13.9, 0, 7.6), -PI / 2, { elora: async (text) => { shots.elora(); await say('el', 4, text); } });
   S.on({ id: 'eloraAfter', at: V3(SEAT.x + 1.15, 0, SEAT.z + 2.0), r: 1.5, action: 'E — talk to Elora', when: () => S.progress >= 130, run: async () => {
     shots.elora(); await say('el', 4, "You've got what you need, outsider.\nNow leave, this is a restricted area."); } });
   S.on({ id: 'aureliaAfter', at: V3(SEAT.x, 0, SEAT.z + 1.6), r: 1.2, action: 'E — look at the prisoner', when: () => S.progress >= 130, run: async () => {

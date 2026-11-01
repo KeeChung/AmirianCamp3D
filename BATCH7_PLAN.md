@@ -1271,3 +1271,13 @@ save that had it wears the Scholar's. The theme key stays `school`; what it says
 ## Left out
 - The moth queen, the moth girls' second troop, a second look per creature: one figure per pack.
 - The hollow log of Lys; fairies as items; the waterfall of the Glade (batch 27's list, unchanged).
+
+# Batch 29 (2026-11-01). VER 360+
+## What was built
+Maren Quill, an original character (not the 2D game's): a Guild cartographer, an adult, cheerful and permanently lost. maren.js holds
+the side quest, cast4.js her figure, faces/maren.png her portrait (tools/facesheet.sh).
+- **The camp** (progress 10 to 114): she has wandered in looking for Valyndra City. Her map case went flying in the North Forest.
+- **The North Forest**: the case lies off the east path at (46,30), once she has asked after it. Hand it back at the camp: +40 coins.
+- **The dungeon** (progress 130 on, on coming back in): arrested for walking in by mistake. Amaymon mentions her at the end of
+  Chapter 2. Anne vouches for her, Elora lets her go, she pays with a map: +80 coins. With the case or without it, the quest ends here.
+Nothing in the story depends on her, and it cannot be left stuck. She is an ordinary person who talks: no scene of hers touches anybody.

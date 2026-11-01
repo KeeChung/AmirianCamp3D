@@ -539,13 +539,13 @@ export async function setup(S, env) {
     const p = S.tileC(8, 3); figs.forEach((f, i) => { f.show(V3(p.x + (i - 1) * 1.3, 0, p.z), PI, i === 1 ? 'Idle' : 'IdleBare'); });
     window.__cast4 = figs;
   }
-  // (tools/facesheet.sh, ?facesheet=mo | wi | tr: that creature's portrait sheet, eight faces of her own 3D figure, 4 x 2, as a
+  // (tools/facesheet.sh, ?facesheet=mo | wi | tr | ma: that creature's portrait sheet, eight faces of her own 3D figure, 4 x 2, as a
   // PNG data URL in window.__sheet; nothing of the 2D game's art goes into these)
   {
     const key = new URLSearchParams(location.search).get('facesheet');
     if (key) setTimeout(async () => {
-      const f = { mo: cast4.createMoth, wi: cast4.createWitch, tr: cast4.createTreant }[key](S, C), p = S.tileC(8, 4), n = 144, cv = document.createElement('canvas'); cv.width = n * 4; cv.height = n * 2;
-      S.late.push((dt, t) => f.update(dt, t)); f.show(V3(p.x, 0, p.z + 3), PI, key === 'wi' ? 'Idle' : 'IdleBare');
+      const f = { mo: cast4.createMoth, wi: cast4.createWitch, tr: cast4.createTreant, ma: cast4.createMaren }[key](S, C), p = S.tileC(8, 4), n = 144, cv = document.createElement('canvas'); cv.width = n * 4; cv.height = n * 2;
+      S.late.push((dt, t) => f.update(dt, t)); f.show(V3(p.x, 0, p.z + 3), PI, key === 'wi' || key === 'ma' ? 'Idle' : 'IdleBare');
       for (let i = 0; i < 6; i++) await S.frame();
       f.obj.traverse((o) => o.layers.enable(2));
       const cam = new THREE.PerspectiveCamera(31, 1, 0.05, 8); cam.layers.set(2);
@@ -554,7 +554,7 @@ export async function setup(S, env) {
       for (let i = 0; i < 8; i++) {
         f.expr(F[i], 0); for (let j = 0; j < 5; j++) await S.frame();
         f.obj.updateMatrixWorld(true); const h = f.head(V3()); h.y += key === 'mo' ? 0.0 : 0.02;
-        cam.position.set(h.x + 0.26, h.y - 0.08, h.z - 1.0); cam.lookAt(h.x, h.y, h.z); cam.updateMatrixWorld(true);
+        if (key === 'ma') h.y -= 0.15; const D = key === 'ma' ? 0.76 : 1.0; cam.position.set(h.x + 0.26 * D, h.y - 0.08 * D, h.z - D); cam.lookAt(h.x, h.y, h.z); cam.updateMatrixWorld(true);
         k.position.set(h.x + 0.7, h.y + 0.9, h.z - 1.2); k.target.position.copy(h); k.target.updateMatrixWorld(true); k.updateMatrixWorld(true);
         const shot = env.post.portrait(cam), m = shot.size; tmp.width = tmp.height = m; const tc2 = tmp.getContext('2d'), img = tc2.createImageData(m, m), row = m * 4;
         for (let y = 0; y < m; y++) img.data.set(shot.pixels.subarray((m - 1 - y) * row, (m - y) * row), y * row);

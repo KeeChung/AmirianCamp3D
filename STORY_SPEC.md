@@ -314,3 +314,7 @@ Packs of creatures2.js like the hornets', with figures from cast4.js and one sla
 holds a creature's strand colours, mound, tries and lines. Lost: lifted, side-on, shoes on, a gauge or two; she goes on, or comes
 round at the last checkpoint. Won: `yields`, then the reward. No stump, no `bound`. Log lines: `<AREA> <kind> beaten | caught
 free | caught lost | left alone`. Tests: tools/reg2.sh; `?cast4` stands the three figures in a row; `?facesheet=` makes a portrait sheet.
+
+## Maren Quill (11-01, batch 29)
+maren.js: `marenQuest(S, C, env)` -> `camp(at, yaw)`, `forest(at)`, `dungeon(at, yaw, { elora })`, `showInCell()`. Flags: marenMet, marenAsked,
+marenCase, marenGiven, marenGone, marenHome. Events: `maren`, `marenCase`, `marenCell`. Log lines: `MAREN met | chat | gave case | case found | home`.

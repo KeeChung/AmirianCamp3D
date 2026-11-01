@@ -14,6 +14,7 @@ const { createItems } = await import('./items.js' + V);
 const cast4 = await import('./cast4.js' + V);
 const { createCaptures3 } = await import('./captures3.js' + V);
 const { creatureKit2 } = await import('./creatures2.js' + V);
+const { marenQuest } = await import('./maren.js' + V);
 
 export async function setup(S, env) {
   const { THREE, scene, anne, A, V3, TILE } = S, C = common(S), { K, am, sparks } = C;
@@ -26,6 +27,7 @@ export async function setup(S, env) {
   const kit = creatureKit(S, C, env, cap), { spot, add, back, ambush, encounter, fight, tamed, captured, wakeUp } = kit;
   // (11-01) the PUMPKIN FIENDS on the 2D's three spots of this map (Map 3, its Halloween event; here the year round): creatures2.js
   { const pk = creatureKit2(S, C, env, kit, cap, {}, null, { cap3: createCaptures3(S, C, env, cap), cast4 }).pack('pumpkin', [[31, 15], [47, 29], [33, 53]]); S.late.push((dt, t) => pk.update(dt, t)); window.__fiends = pk; }
+  marenQuest(S, C, env).forest(S.tileC(46, 30));      // (11-01: Maren's map case, off the east path)
 
   // =====================================================================================================
   //                                             the forest's furniture

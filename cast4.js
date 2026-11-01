@@ -161,10 +161,41 @@ export function createPumpkin(S, C, o = {}) {
   return fig;
 }
 
-// the faces of their portraits (faces/moth.png, faces/witch.png, faces/treant.png; by index) -> an expression of the model's
+// ---------- Maren Quill (maren.js) ----------
+// An original character, not the 2D game's: a Guild cartographer in travelling clothes, chestnut hair up in a bun with a pencil through
+// it, a satchel at her hip.
+const MOSS = [0.14, 0.20, 0.10], TAN = [0.30, 0.20, 0.10], OCHRE = [0.44, 0.28, 0.08], STRAP = rgb(0.12, 0.07, 0.03, 0.6);
+export const MAREN_LOOK = {
+  name: 'Maren', hide: [...NOHAT, 'Anne_Choker'], hairStyle: 'bun', parts: ['Anne_Cape', 'Anne_CapeTrim', 'Anne_Belt', 'Anne_SkirtPencil', 'Anne_SkirtPencilTrim'],
+  sock: [...TAN, 0.9], band: TAN, sleeve: [...MOSS, 0.95],
+  iris: [[0.30, 0.55, 0.30], [0.06, 0.20, 0.08]],
+  hair: { base: [0.20, 0.09, 0.04], right: [0.26, 0.12, 0.05], left: [0.26, 0.12, 0.05] },
+  tint: {
+    Anne_Suit: rgb(...MOSS, 0.75), Anne_Skirt: rgb(...TAN, 0.8), Anne_Trim: rgb(...OCHRE, 0.6, 0), Anne_Cape: rgb(...OCHRE, 0.8), Anne_Belt: STRAP, Anne_Buckle: SILVER, Anne_GlovePaint: rgb(...MOSS, 0.7),
+    Anne_HeelPurple: rgb(0.16, 0.09, 0.04, 0.5), Anne_HeelSole: [0.05, 0.03, 0.02], Anne_Nail: [0.30, 0.20, 0.20], Anne_Brow: [0.16, 0.07, 0.03],
+  },
+};
+function dressMaren({ tw, THREE, onBone }) {
+  const head = onBone('head');
+  if (head) {
+    lips(tw, THREE, head);
+    const pencil = new THREE.Mesh(new THREE.CylinderGeometry(0.005, 0.005, 0.2, 8), new THREE.MeshStandardMaterial({ color: new THREE.Color(0.7, 0.5, 0.12), roughness: 0.6 }));
+    pencil.position.set(0.0, 1.70, -0.075); pencil.rotation.set(0.4, 0, 1.2); head.add(pencil);
+  }
+  const hips = onBone('spine05');
+  if (hips) {
+    const m = new THREE.MeshStandardMaterial({ color: new THREE.Color(0.24, 0.14, 0.06), roughness: 0.75 });
+    const bag = new THREE.Mesh(new THREE.BoxGeometry(0.075, 0.19, 0.21), m); bag.position.set(0.215, 0.93, 0.0); bag.castShadow = true; hips.add(bag);
+    const flap = new THREE.Mesh(new THREE.BoxGeometry(0.082, 0.07, 0.216), m); flap.position.set(0.218, 1.0, 0.0); hips.add(flap);
+  }
+}
+export const createMaren = (S, C, o = {}) => createThief(S, C, Object.assign({ look: MAREN_LOOK, dress: dressMaren, idle: 'Idle', wrist: 0.7, twist: 0.6 }, o));
+
+// the faces of their portraits (faces/moth.png, faces/witch.png, faces/treant.png, faces/maren.png; by index) -> an expression of the model's
 export const FACES4 = {
   mo: { 0: 'smug', 1: 'happy', 2: 'laugh', 3: 'neutral', 4: 'worried', 5: 'surprised', 6: 'smile', 7: 'shocked' },
   wi: { 0: 'neutral', 1: 'smug', 2: 'happy', 3: 'laugh', 4: 'worried', 5: 'surprised', 6: 'smile', 7: 'shocked' },
   tr: { 0: 'neutral', 1: 'smile', 2: 'smug', 3: 'laugh', 4: 'worried', 5: 'surprised', 6: 'happy', 7: 'shocked' },
+  ma: { 0: 'neutral', 1: 'smile', 2: 'happy', 3: 'laugh', 4: 'worried', 5: 'surprised', 6: 'smug', 7: 'shocked' },
 };
 Object.assign(FACES3, FACES4);
